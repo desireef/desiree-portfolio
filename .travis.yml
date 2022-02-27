@@ -1,0 +1,10 @@
+dist: focal
+
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t desiree-portfolio:$TRAVIS_BUILD_NUMBER .
+      - docker tag desiree-portfolio:$TRAVIS_BUILD_NUMBER $DOCKER_USERNAME/desiree-portfolio
+      - docker push $DOCKER_USERNAME/desiree-portfolio:latest
